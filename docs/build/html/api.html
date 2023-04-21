@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -188,7 +188,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -205,6 +205,230 @@
 </tbody>
 </table>
 </div>
+<p>This documentations documents version 1 of the Citesphere API. All endpoints are prefixed with <code class="docutils literal notranslate"><span class="pre">/api/v1</span></code></p>
+<section id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Permalink to this heading">#</a></h2>
+<p>Citesphere requires OAuth2 token for accessing the endpoints. Checkout <code class="docutils literal notranslate"><span class="pre">OAuth2</span> <span class="pre">Documentation</span></code> to know more about retrieving the <code class="docutils literal notranslate"><span class="pre">access_token</span></code>
+(a.k.a Bearer token). You should add the below header for accessing any endpoint.</p>
+<blockquote>
+<div><p>Header Name: <code class="docutils literal notranslate"><span class="pre">Authorization</span></code></p>
+<p>Header Value: <code class="docutils literal notranslate"><span class="pre">Bearer</span> <span class="pre">&lt;access_token&gt;,</span></code> example: <code class="docutils literal notranslate"><span class="pre">Bearer</span> <span class="pre">05fa6b64-a5ee-4cce-78bb-cc492e1d73a7</span></code></p>
+</div></blockquote>
+</section>
+<section id="test-endpoint">
+<h2>Test Endpoint<a class="headerlink" href="#test-endpoint" title="Permalink to this heading">#</a></h2>
+<p>This endpoint returns all the available REST endpoints.</p>
+<p>Example response:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">{</span>
+<span class="go"> {</span>
+<span class="go">     &quot;user&quot;: &quot;myusername&quot;</span>
+<span class="go"> },</span>
+<span class="go"> {</span>
+<span class="go">     &quot;info&quot;: &quot;{ /api/v1/test}&quot;</span>
+<span class="go"> },</span>
+<span class="go"> {</span>
+<span class="go">     &quot;info&quot;: &quot;{ /api/v1/upload}&quot;</span>
+<span class="go"> },</span>
+<span class="go"> ...</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</section>
+<section id="groups-endpoint">
+<h2>Groups Endpoint<a class="headerlink" href="#groups-endpoint" title="Permalink to this heading">#</a></h2>
+<p>The groups endpoint returns all the groups the authenticating user has access to.</p>
+<p>Example response:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">[</span>
+<span class="go"> {</span>
+<span class="go">     &quot;id&quot;: 1234,</span>
+<span class="go">     &quot;name&quot;: &quot;dataset&quot;,</span>
+<span class="go">     &quot;version&quot;: 2,</span>
+<span class="go">     &quot;created&quot;: &quot;2020-06-02T18:40:57Z&quot;,</span>
+<span class="go">     &quot;lastModified&quot;: &quot;2020-06-10T18:30:24Z&quot;,</span>
+<span class="go">     &quot;numItems&quot;: 345,</span>
+<span class="go">     &quot;owner&quot;: 111,</span>
+<span class="go">     &quot;type&quot;: &quot;Private&quot;,</span>
+<span class="go">     &quot;description&quot;: &quot;&quot;,</span>
+<span class="go">     &quot;url&quot;: &quot;&quot;,</span>
+<span class="go">     &quot;syncInfo&quot;: null</span>
+<span class="go"> },</span>
+<span class="go"> {</span>
+<span class="go">     &quot;id&quot;: 56789,</span>
+<span class="go">     &quot;name&quot;: &quot;Shared Group&quot;,</span>
+<span class="go">     &quot;version&quot;: 3,</span>
+<span class="go">     &quot;created&quot;: &quot;2019-08-15T18:02:36Z&quot;,</span>
+<span class="go">     &quot;lastModified&quot;: &quot;2019-08-15T18:12:40Z&quot;,</span>
+<span class="go">     &quot;numItems&quot;: 5555,</span>
+<span class="go">     &quot;owner&quot;: 1123,</span>
+<span class="go">     &quot;type&quot;: &quot;Private&quot;,</span>
+<span class="go">     &quot;description&quot;: &quot;&quot;,</span>
+<span class="go">     &quot;url&quot;: &quot;&quot;,</span>
+<span class="go">     &quot;syncInfo&quot;: null</span>
+<span class="go"> }</span>
+<span class="go">]</span>
+</pre></div>
+</div>
+</section>
+<section id="id1">
+<h2>Groups Endpoint<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<p>This endpoint returns information about a specific group. The returned information will also include sync information for a group.</p>
+<p>Example response:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">{</span>
+<span class="go"> &quot;id&quot;: 1234,</span>
+<span class="go"> &quot;name&quot;: &quot;dataset&quot;,</span>
+<span class="go"> &quot;version&quot;: 18,</span>
+<span class="go"> &quot;created&quot;: &quot;2018-11-19T21:34:21Z&quot;,</span>
+<span class="go"> &quot;lastModified&quot;: &quot;2020-09-22T21:11:07Z&quot;,</span>
+<span class="go"> &quot;numItems&quot;: 37,</span>
+<span class="go"> &quot;owner&quot;: 1111,</span>
+<span class="go"> &quot;type&quot;: &quot;Private&quot;,</span>
+<span class="go"> &quot;description&quot;: &quot;&lt;p&gt;This is for testing Citesphere.&lt;/p&gt;&quot;,</span>
+<span class="go"> &quot;url&quot;: &quot;&quot;,</span>
+<span class="go"> &quot;syncInfo&quot;: {</span>
+<span class="go">     &quot;createdOn&quot;: &quot;2020-09-30T13:17:26-04:00&quot;,</span>
+<span class="go">     &quot;status&quot;: &quot;DONE&quot;</span>
+<span class="go"> }</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</section>
+<section id="collections-endpoint">
+<h2>Collections Endpoint<a class="headerlink" href="#collections-endpoint" title="Permalink to this heading">#</a></h2>
+<p>The collections endpoint returns all collections in a group or in a collection.</p>
+<p>Endpoint URL get <code class="docutils literal notranslate"><span class="pre">/groups/{groupId}/collections,</span> <span class="pre">/groups/{groupId}/collections/{collectionId}/collections</span></code></p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">parameters</span></code></p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">maxCollectionNumber</span></code> The returned number of collections can be limited using this parameter.</p>
+</div></blockquote>
+</div></blockquote>
+<p>Example Response:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">{</span>
+<span class="go"> &quot;group&quot;: {</span>
+<span class="go">     &quot;id&quot;: 1234,</span>
+<span class="go">     &quot;name&quot;: &quot;test&quot;,</span>
+<span class="go">     &quot;version&quot;: 18,</span>
+<span class="go">     &quot;created&quot;: &quot;2018-11-19T21:34:21Z&quot;,</span>
+<span class="go">     &quot;lastModified&quot;: &quot;2020-09-22T21:11:07Z&quot;,</span>
+<span class="go">     &quot;numItems&quot;: 37,</span>
+<span class="go">     &quot;owner&quot;: 1111,</span>
+<span class="go">     &quot;type&quot;: &quot;Private&quot;,</span>
+<span class="go">     &quot;description&quot;: &quot;&lt;p&gt;This is for testing citesphere.&lt;/p&gt;&quot;,</span>
+<span class="go">     &quot;url&quot;: &quot;&quot;,</span>
+<span class="go">     &quot;syncInfo&quot;: {</span>
+<span class="go">         &quot;createdOn&quot;: &quot;2020-09-30T13:17:26-04:00&quot;,</span>
+<span class="go">         &quot;status&quot;: &quot;DONE&quot;</span>
+<span class="go">     }</span>
+<span class="go"> },</span>
+<span class="go"> &quot;collections&quot;: [</span>
+<span class="go">     {</span>
+<span class="go">         &quot;id&quot;: {</span>
+<span class="go">             &quot;timestamp&quot;: 1601486250,</span>
+<span class="go">             &quot;date&quot;: 1601486250000</span>
+<span class="go">         },</span>
+<span class="go">         &quot;key&quot;: &quot;FG78888&quot;,</span>
+<span class="go">         &quot;version&quot;: 291,</span>
+<span class="go">         &quot;contentVersion&quot;: 0,</span>
+<span class="go">         &quot;numberOfCollections&quot;: 0,</span>
+<span class="go">         &quot;numberOfItems&quot;: 0,</span>
+<span class="go">         &quot;name&quot;: &quot;hello&quot;,</span>
+<span class="go">         &quot;parentCollectionKey&quot;: &quot;AAA4444&quot;,</span>
+<span class="go">         &quot;lastModified&quot;: null,</span>
+<span class="go">         &quot;groupId&quot;: &quot;1234&quot;</span>
+<span class="go">     }</span>
+<span class="go"> ]</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</section>
+<section id="items-endpoint">
+<h2>Items Endpoint<a class="headerlink" href="#items-endpoint" title="Permalink to this heading">#</a></h2>
+<p>The items endpoint returns the items in a group or collection.</p>
+<p>Endpoint URL get <code class="docutils literal notranslate"><span class="pre">/groups/{groupId}/items,</span> <span class="pre">/groups/{groupId}/collections/{collectionId}/items</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">parameters</span></code></p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">page</span></code> The page to be returned. A page has at most 50 items.</p>
+<p><code class="docutils literal notranslate"><span class="pre">sort</span></code> <code class="docutils literal notranslate"><span class="pre">EXPERIMENTAL</span></code> How the items should be sorted. Default is <code class="docutils literal notranslate"><span class="pre">title</span></code>. This feature is experimental.</p>
+</div></blockquote>
+<p>Example Response:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">{</span>
+<span class="go"> &quot;group&quot;: {</span>
+<span class="go">     &quot;id&quot;: 1123,</span>
+<span class="go">     &quot;name&quot;: &quot;My Group&quot;,</span>
+<span class="go">     &quot;version&quot;: 4,</span>
+<span class="go">     &quot;created&quot;: &quot;2018-09-10T20:04:46Z&quot;,</span>
+<span class="go">     &quot;lastModified&quot;: &quot;2019-06-20T12:01:29Z&quot;,</span>
+<span class="go">     &quot;numItems&quot;: 2172,</span>
+<span class="go">     &quot;owner&quot;: 1111,</span>
+<span class="go">     &quot;type&quot;: &quot;Private&quot;,</span>
+<span class="go">     &quot;description&quot;: &quot;&quot;,</span>
+<span class="go">     &quot;url&quot;: &quot;&quot;,</span>
+<span class="go">     &quot;syncInfo&quot;: {</span>
+<span class="go">         &quot;createdOn&quot;: &quot;2020-09-30T15:55:18-04:00&quot;,</span>
+<span class="go">         &quot;status&quot;: &quot;DONE&quot;</span>
+<span class="go">     }</span>
+<span class="go"> },</span>
+<span class="go"> &quot;items&quot;: [</span>
+<span class="go">     {</span>
+<span class="go">         &quot;key&quot;: &quot;CXCXX&quot;,</span>
+<span class="go">         &quot;group&quot;: &quot;1123&quot;,</span>
+<span class="go">         &quot;version&quot;: 4873,</span>
+<span class="go">         &quot;title&quot;: &quot;THE EFFECTS OF A DIET OF POLISHED AND OF UNPOLISHED RICE UPON THE METABOLIC ACTIVITY OF PARAMECIUM&quot;,</span>
+<span class="go">         &quot;authors&quot;: [</span>
+<span class="go">             {</span>
+<span class="go">                 &quot;@type&quot;: &quot;Person&quot;,</span>
+<span class="go">                 &quot;name&quot;: &quot;Mary Drusilla Flather&quot;,</span>
+<span class="go">                 &quot;uri&quot;: null,</span>
+<span class="go">                 &quot;localAuthorityId&quot;: null,</span>
+<span class="go">                 &quot;firstName&quot;: &quot;Mary Drusilla&quot;,</span>
+<span class="go">                 &quot;lastName&quot;: &quot;Flather&quot;,</span>
+<span class="go">                 &quot;positionInList&quot;: 0,</span>
+<span class="go">                 &quot;affiliations&quot;: null</span>
+<span class="go">             }</span>
+<span class="go">         ],</span>
+<span class="go">         &quot;editors&quot;: [],</span>
+<span class="go">         &quot;otherCreators&quot;: [],</span>
+<span class="go">         &quot;itemType&quot;: &quot;JOURNAL_ARTICLE&quot;,</span>
+<span class="go">         &quot;publicationTitle&quot;: &quot;&quot;,</span>
+<span class="go">         &quot;volume&quot;: &quot;36&quot;,</span>
+<span class="go">         &quot;issue&quot;: &quot;&quot;,</span>
+<span class="go">         &quot;pages&quot;: &quot;&quot;,</span>
+<span class="go">         &quot;date&quot;: &quot;1919-01-01T00:00Z&quot;,</span>
+<span class="go">         &quot;dateFreetext&quot;: &quot;1919&quot;,</span>
+<span class="go">         &quot;series&quot;: &quot;&quot;,</span>
+<span class="go">         &quot;seriesTitle&quot;: &quot;&quot;,</span>
+<span class="go">         &quot;url&quot;: &quot;&quot;,</span>
+<span class="go">         &quot;abstractNote&quot;: &quot;&quot;,</span>
+<span class="go">         &quot;accessDate&quot;: &quot;&quot;,</span>
+<span class="go">         &quot;seriesText&quot;: &quot;&quot;,</span>
+<span class="go">         &quot;journalAbbreviation&quot;: &quot;&quot;,</span>
+<span class="go">         &quot;language&quot;: &quot;&quot;,</span>
+<span class="go">         &quot;doi&quot;: null,</span>
+<span class="go">         &quot;issn&quot;: null,</span>
+<span class="go">         &quot;shortTitle&quot;: &quot;&quot;,</span>
+<span class="go">         &quot;archive&quot;: &quot;&quot;,</span>
+<span class="go">         &quot;archiveLocation&quot;: &quot;&quot;,</span>
+<span class="go">         &quot;libraryCatalog&quot;: &quot;&quot;,</span>
+<span class="go">         &quot;callNumber&quot;: &quot;&quot;,</span>
+<span class="go">         &quot;rights&quot;: &quot;&quot;,</span>
+<span class="go">         &quot;collections&quot;: [</span>
+<span class="go">             &quot;V5B7E56T&quot;</span>
+<span class="go">         ],</span>
+<span class="go">         &quot;dateAdded&quot;: &quot;2020-07-09T21:20:03Z&quot;,</span>
+<span class="go">         &quot;dateModified&quot;: null,</span>
+<span class="go">         &quot;conceptTagIds&quot;: null,</span>
+<span class="go">         &quot;conceptTags&quot;: null,</span>
+<span class="go">         &quot;references&quot;: null,</span>
+<span class="go">         &quot;extra&quot;: &quot;Bryn Mawr&quot;,</span>
+<span class="go">         &quot;otherCreatorRoles&quot;: []</span>
+<span class="go">     },</span>
+<span class="go">     ...</span>
+<span class="go">   }</span>
+<span class="go">]</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</section>
 </section>
 
         </article>
@@ -250,8 +474,32 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">API</a><ul>
+<li><a class="reference internal" href="#authentication">Authentication</a></li>
+<li><a class="reference internal" href="#test-endpoint">Test Endpoint</a></li>
+<li><a class="reference internal" href="#groups-endpoint">Groups Endpoint</a></li>
+<li><a class="reference internal" href="#id1">Groups Endpoint</a></li>
+<li><a class="reference internal" href="#collections-endpoint">Collections Endpoint</a></li>
+<li><a class="reference internal" href="#items-endpoint">Items Endpoint</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

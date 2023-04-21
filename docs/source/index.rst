@@ -5,13 +5,12 @@
 Check out the :doc:`usage` section for further information, including how to
 :ref:`install <installation>` the project.
 
-Welcome to Lumache's documentation!
-===================================
+Welcome to citesphere's documentation!
+======================================
 
-**Lumache** (/lu'make/) is a Python library for cooks and food lovers that
-creates recipes mixing random ingredients.  It pulls data from the `Open Food
-Facts database <https://world.openfoodfacts.org/>`_ and offers a *simple* and
-*intuitive* API.
+**Citesphere** is a citation management web application that is built on top of Zotero. 
+It uses Zotero Cloud as backend, while providing additional features such as allowing users to specify affiliation 
+data for authors. To use Citesphere, users need an account with Zotero and sync their data to the Zotero services.
 
 .. note::
 
@@ -23,4 +22,6 @@ Contents
 .. toctree::
 
    usage
+   Developer Documentation
    api
+   OAuth2Documentation
